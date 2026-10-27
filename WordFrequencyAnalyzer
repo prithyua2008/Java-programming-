@@ -1,0 +1,33 @@
+package q28434;
+import java.io.*;
+import java.util.*;
+
+public class WordFrequencyAnalyzer {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String fileName = scanner.nextLine().trim();
+        scanner.close();
+
+        TreeMap<String, Integer> wordCounts = new TreeMap<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] words = line.split("\\s+");
+                for (String word : words) {
+                    if (!word.isEmpty()) {
+                        String cleanWord = word.toLowerCase();
+                        wordCounts.put(cleanWord, wordCounts.getOrDefault(cleanWord, 0) + 1);
+                    }
+                }
+            }
+            for (Map.Entry<String, Integer> entry : wordCounts.entrySet()) {
+                System.out.println(entry.getKey() + ": " + entry.getValue());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File does not exist");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
